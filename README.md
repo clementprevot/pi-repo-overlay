@@ -1,4 +1,4 @@
-# Repo overlay
+# @clementprevot/pi-repo-overlay
 
 Pi extension that adds a personal instruction file for the repository a session runs in, next to that repository's own `AGENTS.md`. Use it for notes that are yours alone and do not belong in the shared file, such as how your machine runs the toolchain.
 
@@ -33,10 +33,10 @@ In a pattern, `*` matches any run of characters except a slash. When several ali
 ## Install
 
 ```bash
-pi install git:github.com/clementprevot/pi-repo-overlay
+pi install npm:@clementprevot/pi-repo-overlay
 ```
 
-Then run `/reload`.
+Updates ship with `pi update --extensions`. The extension applies to your next session (quit and relaunch, or run `/reload`).
 
 ## Limitations
 
