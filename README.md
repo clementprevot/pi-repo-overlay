@@ -8,7 +8,7 @@ When a session starts, the extension asks git for the origin URL of the reposito
 
 If `<dir>/<name>.md` exists, the extension adds it to the context files of the session, after the repository's own `AGENTS.md`. The model sees it as one more instruction file. The extension reads the file again when it changes, so an edit applies to the next prompt without a reload.
 
-The footer shows `overlay: <name>`, and `/repo-overlay` tells you which file the session loaded, or why it loaded none.
+The footer shows `overlay: <name>` until the first prompt, and `/repo-overlay` tells you which file the session loaded, or why it loaded none.
 
 ## Configuration
 

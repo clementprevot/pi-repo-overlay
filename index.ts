@@ -98,6 +98,7 @@ export async function resolveRepo(cwd: string, run: Git = git): Promise<Repo | u
 export default function repoOverlay(pi: ExtensionAPI) {
 	let overlay: { name: string; path: string } | undefined;
 	let status = "no overlay yet";
+	let isStatusShown = false;
 	let cached: { path: string; mtimeMs: number; content: string } | undefined;
 
 	const read = (path: string): string | undefined => {
@@ -130,6 +131,13 @@ export default function repoOverlay(pi: ExtensionAPI) {
 		overlay = { name, path };
 		status = `loaded ${path}`;
 		ctx.ui.setStatus(EXTENSION_ID, `overlay: ${name}`);
+		isStatusShown = true;
+	});
+
+	pi.on("agent_start", (_event, ctx) => {
+		if (!isStatusShown) return;
+		isStatusShown = false;
+		ctx.ui.setStatus(EXTENSION_ID, undefined);
 	});
 
 	pi.on("before_agent_start", (event) => {

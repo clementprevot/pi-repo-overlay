@@ -97,7 +97,8 @@ async function startSession(cwd: string, agentDir: string) {
 	}
 	const beforeAgentStart = (contextFiles: Array<{ path: string; content: string }>) =>
 		handlers.get("before_agent_start")?.({ systemPromptOptions: { contextFiles } }, ctx);
-	return { statuses, beforeAgentStart };
+	const agentStart = () => handlers.get("agent_start")?.({}, ctx);
+	return { statuses, beforeAgentStart, agentStart };
 }
 
 test("the extension adds the overlay to the context files once", async () => {
@@ -112,6 +113,12 @@ test("the extension adds the overlay to the context files once", async () => {
 
 	const session = await startSession(repo, agentDir);
 	assert.deepEqual(session.statuses, [["repo-overlay", "overlay: gadgets"]]);
+	session.agentStart();
+	session.agentStart();
+	assert.deepEqual(session.statuses, [
+		["repo-overlay", "overlay: gadgets"],
+		["repo-overlay", undefined],
+	]);
 
 	const contextFiles = [{ path: "/repo/AGENTS.md", content: "Repo rules" }];
 	session.beforeAgentStart(contextFiles);
@@ -133,6 +140,7 @@ test("the extension stays silent when the repo has no overlay", async () => {
 	initRepo(repo, "git@example.com:acme/bare.git");
 
 	const session = await startSession(repo, agentDir);
+	session.agentStart();
 	assert.deepEqual(session.statuses, []);
 	const contextFiles = [{ path: "/repo/AGENTS.md", content: "Repo rules" }];
 	session.beforeAgentStart(contextFiles);
