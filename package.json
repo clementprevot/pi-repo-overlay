@@ -1,6 +1,6 @@
 {
 	"name": "@clementprevot/pi-repo-overlay",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Pi extension that loads a personal instruction file for the repository a session runs in, matched by its origin URL so every worktree gets it",
 	"keywords": [
 		"pi-package",
